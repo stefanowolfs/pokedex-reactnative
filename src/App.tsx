@@ -6,6 +6,7 @@ import {
   View,
   Text,
   StatusBar,
+  ARTGroupProps,
 } from 'react-native';
 import {
   Header,
@@ -24,7 +25,8 @@ const App: React.FC = () => {
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+          style={styles.scrollView}
+        >
           <Header />
           {globalAny.HermesInternal == null ? null : (
             <View style={styles.engine}>
