@@ -2,25 +2,24 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Content } from 'native-base';
 
+import LoginFormValues from '../../../../@types/loginFormValues';
+import { useAuth } from '../../../../hooks/auth';
 import formValidationSchema from './formValidationSchema';
 
 import TransparentButton from '../../../../components/TransparentButton';
 import TextInput from '../../../../components/TextInput';
 import { CustomView, FormContainer } from './styles';
 
-interface FormValues {
-  username: string;
-  password: string;
-}
-
 const LoginForm: React.FC = () => {
-  const initialValues: FormValues = {
+  const { login } = useAuth();
+
+  const initialValues: LoginFormValues = {
     username: '',
     password: '',
   };
 
-  const handleSubmitLogin = (values: FormValues): void => {
-    console.log('Login values', values);
+  const handleSubmitLogin = (values: LoginFormValues): void => {
+    login(values);
   };
 
   return (
@@ -30,7 +29,7 @@ const LoginForm: React.FC = () => {
           enableReinitialize
           initialValues={initialValues}
           validationSchema={formValidationSchema}
-          onSubmit={(values: FormValues) => handleSubmitLogin(values)}
+          onSubmit={(values: LoginFormValues) => handleSubmitLogin(values)}
         >
           {({
             handleChange,

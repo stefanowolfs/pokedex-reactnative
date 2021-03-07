@@ -1,14 +1,18 @@
 import React from 'react';
 
+import { useAuth } from '../../hooks/auth';
+
 import LoginForm from './components/LoginForm';
-import { CustomContainer, CustomContent, Title } from './styles';
+import LoadingView from '../../components/LoadingView';
+import { CustomContainer, CustomContent } from './styles';
 
 const LoginScreen: React.FC = () => {
+  const { loading } = useAuth();
+
   return (
     <CustomContainer>
       <CustomContent>
-        <Title>Pokedex</Title>
-        <LoginForm />
+        {!loading ? <LoginForm /> : <LoadingView />}
       </CustomContent>
     </CustomContainer>
   );
