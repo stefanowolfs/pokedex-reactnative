@@ -10,8 +10,19 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/native": "^5.9.3",
+    "@react-navigation/stack": "^5.14.3",
+    "formik": "^2.2.6",
+    "native-base": "^2.15.2",
     "react": "16.13.1",
-    "react-native": "0.63.4"
+    "react-native": "0.63.4",
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-reanimated": "^2.0.0",
+    "react-native-safe-area-context": "^3.1.9",
+    "react-native-screens": "^2.18.1",
+    "styled-components": "^5.2.1",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -22,6 +33,9 @@
     "@types/react": "^17.0.3",
     "@types/react-native": "^0.63.51",
     "@types/react-test-renderer": "^17.0.1",
+    "@types/styled-components": "^5.1.7",
+    "@types/styled-components-react-native": "^5.1.1",
+    "@types/yup": "^0.29.11",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
     "babel-jest": "^25.1.0",
