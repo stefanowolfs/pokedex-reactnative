@@ -32,8 +32,11 @@ $ npm run test:cov
 
 ## Project status
 
-- [] Configure sqlite, ORM and migration infrastructure
-- [] Configure CRUD for offline-auth and user session
+- [x] Add navigation
+- [x] Add formik and yup for forms validation
+- [] Add internationalization
+- [] Add sqlite, ORM and migration infrastructure
+- [] Add CRUD for offline-auth and user session
 - [] Configure login & user session
 - [] Add tests coverage with jest
 
