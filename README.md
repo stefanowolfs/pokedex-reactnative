@@ -34,10 +34,13 @@ $ npm run test:cov
 
 - [x] Add navigation
 - [x] Add formik and yup for forms validation
+- [x] Add sqlite, ORM and migration infrastructure
+- [x] Add CRUD for offline-auth and user session
+- [x] Configure login, user session and cryptography
+- [] Download and persist all pokemons data for offline usage
+- [] List all pokemons on screen
+- [] Show pokemon details on screen
 - [] Add internationalization
-- [] Add sqlite, ORM and migration infrastructure
-- [] Add CRUD for offline-auth and user session
-- [] Configure login & user session
 - [] Add tests coverage with jest
 
 ## About
