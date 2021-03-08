@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { PokemonProvider } from '../hooks/pokemon';
 import { useAuth } from '../hooks/auth';
 import { pathRoutes } from './pathRoutes';
 
@@ -26,13 +27,15 @@ const Routes: React.FC = () => {
           <Stack.Screen name={pathRoutes.login} component={LoginScreen} />
         </Stack.Navigator>
       ) : (
-        <Stack.Navigator>
-          <Stack.Screen name={pathRoutes.home} component={HomeScreen} />
-          <Stack.Screen
-            name={pathRoutes.pokemonDetails}
-            component={PokemonDetailsScreen}
-          />
-        </Stack.Navigator>
+        <PokemonProvider>
+          <Stack.Navigator>
+            <Stack.Screen name={pathRoutes.home} component={HomeScreen} />
+            <Stack.Screen
+              name={pathRoutes.pokemonDetails}
+              component={PokemonDetailsScreen}
+            />
+          </Stack.Navigator>
+        </PokemonProvider>
       )}
     </NavigationContainer>
   );
