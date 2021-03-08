@@ -7,11 +7,12 @@ import React, {
   useEffect,
 } from 'react';
 
-import UnauthorizedCredentials from '../utils/exceptions/UnauthorizedCredentials';
 import User from '../@types/user';
 import LoginFormValues from '../@types/loginFormValues';
 import UserRepository from '../services/sqlite/repository/userRepository';
 import { UserEntity } from '../services/sqlite/entity/user.entity';
+
+import UnauthorizedCredentials from '../utils/exceptions/UnauthorizedCredentials';
 import { encryptWithSha256 } from '../utils/cryptography';
 
 interface AuthContextData {
