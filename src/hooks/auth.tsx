@@ -7,12 +7,16 @@ import React, {
   useEffect,
 } from 'react';
 
+import UnauthorizedCredentials from '../utils/exceptions/UnauthorizedCredentials';
+import User from '../@types/user';
 import LoginFormValues from '../@types/loginFormValues';
-import * as AuthAsyncStorage from '../services/asyncStorage/auth';
+import UserRepository from '../services/sqlite/repository/userRepository';
+import { UserEntity } from '../services/sqlite/entity/user.entity';
+import { encryptWithSha256 } from '../utils/cryptography';
 
 interface AuthContextData {
   loading: boolean;
-  token: string;
+  user: User;
   login(loginInfo: LoginFormValues): Promise<void>;
   logout(): Promise<void>;
 }
@@ -21,53 +25,92 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState<string>(null);
+  const [user, setUser] = useState<User>(null);
+
+  const validateUserPassword = async (
+    userToTest: User,
+    password: string,
+  ): Promise<boolean> => {
+    const encryptedPassword = await encryptWithSha256(password);
+    return userToTest.password === encryptedPassword;
+  };
 
   const logout = useCallback(async (): Promise<void> => {
     setLoading(true);
-    setToken(null);
-    await AuthAsyncStorage.removeToken();
-    await setTimeout(() => {
-      setLoading(false);
-    }, 300);
-  }, []);
+    const userRepo = new UserRepository();
+    await userRepo.findByIdAndInactivate(user.id);
+    setUser(null);
+    setLoading(false);
+  }, [user]);
 
   const login = useCallback(
     async (formValues: LoginFormValues): Promise<void> => {
-      setLoading(true);
-      // TODO: add some authentication with some API in the future
-      console.log('new User', formValues);
-      const newToken = 'Bearer some.token';
-      setToken(newToken);
-      await AuthAsyncStorage.setToken(newToken);
-      await setTimeout(() => {
+      try {
+        setLoading(true);
+        const userRepo = new UserRepository();
+        const existentUser: User = await userRepo.findByUsername(
+          formValues.username,
+        );
+
+        if (existentUser) {
+          const isLoginValid: boolean = await validateUserPassword(
+            existentUser,
+            formValues.password,
+          );
+          if (!isLoginValid) throw new UnauthorizedCredentials();
+          setUser(existentUser);
+          setLoading(false);
+          return;
+        }
+
+        const encryptedPassword = await encryptWithSha256(formValues.password);
+        const newUser = new UserEntity();
+        newUser.username = formValues.username;
+        newUser.password = encryptedPassword;
+        newUser.active = true;
+        userRepo.save(newUser);
+        setUser(newUser);
         setLoading(false);
-      }, 300);
+      } catch (err) {
+        console.error('Login error:', err);
+      }
     },
     [],
   );
 
   useEffect(() => {
+    let isUnmounted = false;
     const restoreSession = async (): Promise<void> => {
-      const newToken: string | null = await AuthAsyncStorage.getToken();
-      if (newToken) {
-        await setTimeout(() => {
-          setToken(newToken);
-          setLoading(false);
-        }, 300);
+      try {
+        if (!isUnmounted) {
+          const userRepo = new UserRepository();
+          const activeUser: User = await userRepo.findByActiveEqualsTrue();
+          if (activeUser) {
+            setUser(activeUser);
+          }
+        }
+        setLoading(false);
+      } catch (e) {
+        if (!isUnmounted) {
+          throw e;
+        }
       }
     };
     restoreSession();
+
+    return () => {
+      isUnmounted = true;
+    };
   }, []);
 
   const contextValues = useMemo(
     () => ({
       loading,
-      token,
+      user,
       login,
       logout,
     }),
-    [loading, token, login, logout],
+    [loading, user, login, logout],
   );
 
   return (

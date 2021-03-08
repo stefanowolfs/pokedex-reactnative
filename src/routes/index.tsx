@@ -13,7 +13,7 @@ import PokemonDetailsScreen from '../pages/PokemonDetailsScreen';
 const Stack = createStackNavigator();
 
 const Routes: React.FC = () => {
-  const { token, loading } = useAuth();
+  const { user, loading } = useAuth();
 
   if (loading) {
     return <LoadingScreen />;
@@ -21,7 +21,7 @@ const Routes: React.FC = () => {
 
   return (
     <NavigationContainer>
-      {!token ? (
+      {!user ? (
         <Stack.Navigator>
           <Stack.Screen name={pathRoutes.login} component={LoginScreen} />
         </Stack.Navigator>
