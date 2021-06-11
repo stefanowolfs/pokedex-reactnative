@@ -37,6 +37,7 @@ $ npm run test:cov
 - [x] Add sqlite, ORM and migration infrastructure
 - [x] Add CRUD for offline-auth and user session
 - [x] Configure login, user session and cryptography
+- [x] Add page for global error handling
 - [ ] Download and persist all pokemons data for offline usage
 - [ ] List all pokemons on screen
 - [ ] Show pokemon details on screen

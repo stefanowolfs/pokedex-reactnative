@@ -5,14 +5,17 @@ import { AppProvider } from './hooks/app';
 import { AuthProvider } from './hooks/auth';
 
 import Routes from './routes';
+import ErrorBoundary from './pages/ErrorBoundary';
 
 const App: React.FC = () => {
   return (
-    <AppProvider>
-      <AuthProvider>
-        <Routes />
-      </AuthProvider>
-    </AppProvider>
+    <ErrorBoundary>
+      <AppProvider>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
+      </AppProvider>
+    </ErrorBoundary>
   );
 };
 

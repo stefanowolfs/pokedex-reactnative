@@ -8,4 +8,6 @@ export default {
   green3: '#44CF6C',
   green4: '#32A287',
   brown: '#6C464E',
+  purple: '#3b31a6',
+  purpleDark: '#27216E',
 };
